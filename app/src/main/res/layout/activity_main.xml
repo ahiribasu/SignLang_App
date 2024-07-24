@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_view"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/connectButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Connect"
+                android:background="@color/connectButtonColor"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/disconnectButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Disconnect"
+                android:background="@color/disconnectButtonColor"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <!-- Centered TextView with Border at the Bottom -->
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_above="@id/statusTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:padding="16dp"
+            android:text="TextView"
+            android:background="@drawable/border_view"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" />
+
+        <!-- Status TextView -->
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:padding="16dp"
+            android:text="Bluetooth Status"
+            android:background="@drawable/border_view"
+            android:textSize="18sp"
+            android:textColor="@android:color/black" />
+
+    </RelativeLayout>
+</FrameLayout>
