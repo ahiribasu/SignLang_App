@@ -19,8 +19,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,7 +30,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -47,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editText;
     private TextToSpeech textToSpeech;
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private boolean isConnected = false; // To track if a device is already connected
+    private boolean isConnected = false;
 
     private final ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<>();
     private BluetoothDevice selectedDevice;
@@ -177,14 +174,13 @@ public class MainActivity extends AppCompatActivity {
                 });
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 handler.post(() -> statusTextView.setText("Disconnected"));
-                isConnected = false; // Reset flag when disconnected
+                isConnected = false;
             }
         }
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                // Services have been discovered
                 isConnected = true;
             } else {
                 Log.e(TAG, "onServicesDiscovered received: " + status);
@@ -210,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendMessage() {
         String message = editText.getText().toString();
-        if (message.isEmpty() || bluetoothGatt == null) {
+        if (message.isEmpty() || bluetoothGatt == null || !isConnected) {
             statusTextView.setText("No message to send or not connected");
             return;
         }
@@ -222,12 +218,14 @@ public class MainActivity extends AppCompatActivity {
         BluetoothGattService service = bluetoothGatt.getService(serviceUUID);
         if (service == null) {
             statusTextView.setText("Service not found");
+            Log.e(TAG, "Service UUID not found: " + serviceUUID.toString());
             return;
         }
 
         BluetoothGattCharacteristic characteristic = service.getCharacteristic(characteristicUUID);
         if (characteristic == null) {
             statusTextView.setText("Characteristic not found");
+            Log.e(TAG, "Characteristic UUID not found: " + characteristicUUID.toString());
             return;
         }
 
@@ -254,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
             bluetoothGatt.close();
             bluetoothGatt = null;
             statusTextView.setText("Disconnected");
-            isConnected = false; // Reset flag on disconnection
+            isConnected = false;
         }
     }
 
